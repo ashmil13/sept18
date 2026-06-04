@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "title": "Your Pure Smile",
+    "description": "The way your entire face lights up when you laugh. It instantly chases away any darkness in my day.",
+    "icon": "smile"
+  },
+  {
+    "id": 2,
+    "title": "Your Kind Heart",
+    "description": "You care so selflessly for everyone around you. Your compassion makes the world a warmer, gentler place.",
+    "icon": "heart-handshake"
+  },
+  {
+    "id": 3,
+    "title": "Your Loving Comfort",
+    "description": "The feeling of home when you hold my hand or hug me after a long day. In your arms, I am always safe.",
+    "icon": "home"
+  },
+  {
+    "id": 4,
+    "title": "Your Brilliant Mind",
+    "description": "Your wisdom, creativity, and the beautiful way you see and understand the world. You inspire me to grow.",
+    "icon": "brain"
+  },
+  {
+    "id": 5,
+    "title": "Your Soft Voice",
+    "description": "Hearing your voice is my favorite sound. It brings a peace to my mind that nothing else can replicate.",
+    "icon": "music"
+  },
+  {
+    "id": 6,
+    "title": "Your Playful Soul",
+    "description": "The inside jokes we share and the silly things we do when it’s just the two of us. We are kids at heart together.",
+    "icon": "sparkles"
+  },
+  {
+    "id": 7,
+    "title": "How You Support Me",
+    "description": "Believing in me even when I doubt myself. You are my biggest cheerleader and my solid rock.",
+    "icon": "shield"
+  },
+  {
+    "id": 8,
+    "title": "Your Endless Grace",
+    "description": "The elegance and strength you show in handling life's challenges. You walk with beauty and dignity.",
+    "icon": "crown"
+  },
+  {
+    "id": 9,
+    "title": "Your Passion for Life",
+    "description": "The way you get excited about the little things—a beautiful sunset, a hot coffee, or a cozy evening.",
+    "icon": "sun"
+  },
+  {
+    "id": 10,
+    "title": "You Are Simply You",
+    "description": "Because you are my soulmate, my partner, and the love of my life. I love you for exactly who you are.",
+    "icon": "gift"
+  }
+]

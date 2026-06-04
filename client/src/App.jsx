@@ -4,11 +4,11 @@ import Decorations from './components/Decorations';
 import MusicPlayer from './components/MusicPlayer';
 import Hero from './components/Hero';
 import Gallery from './components/Gallery';
+import PhotoSphere from './components/PhotoSphere';
 import LoveLetter from './components/LoveLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
 import { Heart } from 'lucide-react';
-import photosList from './photosList.json';
 
 export default function App() {
   const [photos, setPhotos] = useState([]);
@@ -23,8 +23,22 @@ export default function App() {
   };
 
   useEffect(() => {
-    setPhotos(photosList || []);
-    setLoading(false);
+    // Fetch photos from local express api served on the proxy
+    fetch('/api/photos')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch photos');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setPhotos(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error loading photos from backend:', err);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -40,6 +54,9 @@ export default function App() {
 
       {/* Polaroid Memory Scrapbook Album & Carousel */}
       <Gallery photos={photos} triggerCelebrate={triggerCelebrate} />
+
+      {/* 3D Orbiting Memory Sphere */}
+      <PhotoSphere photos={photos} />
 
       {/* Interactive Heart Envelope with handwriting scroll letter */}
       <LoveLetter />

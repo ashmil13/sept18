@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Compass, Cake, Calendar, Sparkles, MapPin } from 'lucide-react';
-import { DEFAULT_TIMELINE } from '../utils/localData';
 
 const iconMap = {
   heart: <Heart className="text-pink-500 fill-pink-500" size={18} />,
@@ -24,8 +23,16 @@ export default function Timeline({ photos }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimelineItems(DEFAULT_TIMELINE);
-    setLoading(false);
+    fetch('/api/timeline')
+      .then((res) => res.json())
+      .then((data) => {
+        setTimelineItems(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('Error fetching timeline:', err);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {

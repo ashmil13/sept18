@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "title": "The First Chapter",
+    "date": "15 October 2021",
+    "description": "The day we first met. Looking into your eyes, I knew my heart had found its home. Every conversation felt like a page in a story I never wanted to end.",
+    "icon": "heart",
+    "photoIndex": 0
+  },
+  {
+    "id": "2",
+    "title": "First Magic Getaway",
+    "date": "12 December 2022",
+    "description": "Our first trip together. Sharing laughs, watching sunsets, and building memories that defined who we are. It was here that I realized you are my forever adventure.",
+    "icon": "compass",
+    "photoIndex": 1
+  },
+  {
+    "id": "3",
+    "title": "The Sweet Proposal",
+    "date": "14 February 2024",
+    "description": "Asking you to walk hand-in-hand with me for the rest of our lives. The happiest \"Yes\" I ever received. You made me the luckiest man in the universe.",
+    "icon": "ring",
+    "photoIndex": 2
+  },
+  {
+    "id": "4",
+    "title": "Our Beautiful Today",
+    "date": "18 September 2026",
+    "description": "Celebrating you! Today, tomorrow, and for all the birthdays to come. You are my wife, my best friend, and my greatest blessing.",
+    "icon": "cake",
+    "photoIndex": 3
+  }
+]
