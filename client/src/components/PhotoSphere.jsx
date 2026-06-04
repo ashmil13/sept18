@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, RotateCw, Sparkles, X, Heart } from 'lucide-react';
+import { Image as ImageIcon, RotateCw, Sparkles, X, Heart, Zap } from 'lucide-react';
 
 export default function PhotoSphere({ photos }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSpeedMode, setIsSpeedMode] = useState(false);
   const sphereRef = useRef(null);
 
   // Animation and drag state refs (to update styles at 60fps without React re-render lags)
@@ -66,9 +67,10 @@ export default function PhotoSphere({ photos }) {
     let animId;
     const tick = () => {
       if (!isDragging.current && !isHovered) {
-        // Slow float rotation
-        rotationY.current += 0.20;
-        rotationX.current += 0.10;
+        // Slow float rotation or fast rotation depending on isSpeedMode
+        const speedMultiplier = isSpeedMode ? 6 : 1;
+        rotationY.current += 0.20 * speedMultiplier;
+        rotationX.current += 0.10 * speedMultiplier;
 
         if (sphereRef.current) {
           sphereRef.current.style.transform = `rotateX(${rotationX.current}deg) rotateY(${rotationY.current}deg)`;
@@ -78,7 +80,7 @@ export default function PhotoSphere({ photos }) {
     };
     animId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animId);
-  }, [isHovered]);
+  }, [isHovered, isSpeedMode]);
 
   // Drag handlers for mouse & touch
   const handleStart = (e) => {
@@ -187,9 +189,19 @@ export default function PhotoSphere({ photos }) {
         </div>
       </div>
 
-      {/* Rotating Guide Hint */}
-      <div className="guide-hint">
-        <RotateCw size={12} className="animate-spin-slow" /> Drag to Orbit • Click to View
+      {/* Interactive Controls & Guide Hint */}
+      <div className="sphere-controls">
+        <div className="guide-hint">
+          <RotateCw size={12} className="animate-spin-slow" /> Drag to Orbit • Click to View
+        </div>
+        
+        <button
+          onClick={() => setIsSpeedMode(!isSpeedMode)}
+          className={`speed-toggle-btn ${isSpeedMode ? 'speed-active' : ''}`}
+        >
+          <Zap size={14} className={isSpeedMode ? 'zap-active' : ''} />
+          {isSpeedMode ? 'Super Speed Active' : 'Activate Speed Rotation'}
+        </button>
       </div>
 
       {/* Lightbox / Zoom Focus Overlay */}
@@ -464,9 +476,17 @@ export default function PhotoSphere({ photos }) {
           }
         }
 
-        /* Guide hint styles */
-        .guide-hint {
+        /* Controls Panel & Speed Toggle */
+        .sphere-controls {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
           margin-top: 2rem;
+          z-index: 20;
+        }
+
+        .guide-hint {
           font-size: 0.75rem;
           color: rgba(252, 231, 243, 0.6);
           text-transform: uppercase;
@@ -474,8 +494,64 @@ export default function PhotoSphere({ photos }) {
           display: flex;
           align-items: center;
           gap: 0.375rem;
-          z-index: 20;
           user-select: none;
+        }
+
+        .speed-toggle-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.2rem;
+          border-radius: 9999px;
+          border: 1.5px solid rgba(236, 72, 153, 0.4);
+          background: rgba(12, 2, 17, 0.6);
+          color: #fce7f3;
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 0 10px rgba(236, 72, 153, 0.2);
+          backdrop-filter: blur(4px);
+        }
+
+        .speed-toggle-btn:hover {
+          border-color: #ec4899;
+          color: #ffffff;
+          box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+          transform: scale(1.05);
+        }
+
+        .speed-toggle-btn.speed-active {
+          background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);
+          border-color: #ffd700;
+          color: #ffffff;
+          box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 10px rgba(255, 215, 0, 0.4);
+          animation: button-pulse 2s infinite;
+        }
+
+        .zap-active {
+          animation: zap-twinkle 1s ease-in-out infinite alternate;
+          color: #ffd700;
+        }
+
+        @keyframes button-pulse {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 10px rgba(255, 215, 0, 0.4);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 1), 0 0 20px rgba(255, 215, 0, 0.7);
+          }
+        }
+
+        @keyframes zap-twinkle {
+          0% {
+            transform: scale(1);
+            filter: drop-shadow(0 0 1px rgba(255, 215, 0, 0.5));
+          }
+          100% {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 1));
+          }
         }
 
         /* Utility Animations */
@@ -515,4 +591,5 @@ export default function PhotoSphere({ photos }) {
     </section>
   );
 }
+
 
