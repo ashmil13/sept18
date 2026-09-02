@@ -12,21 +12,40 @@ import VideoSection from './components/VideoSection';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
-// Statically load photos from assets and prioritize newly added photos first
+// Statically load photos from assets
 const photoModules = import.meta.glob('./assets/photos/*.{jpg,jpeg,png,gif,webp,JPG,JPEG,PNG,GIF,WEBP}', { eager: true });
 
-const staticPhotos = Object.entries(photoModules)
+const selectedHeroFiles = [
+  'IMG_20260821_084415_697.jpg',
+  'IMG_20260821_084423_913.jpg',
+  'IMG_20260821_204401_583.webp',
+  'IMG-20250727-WA0059.jpg',
+  'IMG-20250727-WA0057.jpg',
+  'IMG-20250727-WA0077.jpg',
+  'IMG-20250817-WA0026.jpg',
+  'IMG-20250817-WA0029.jpg',
+  'IMG-20260205-WA0016.jpg',
+  'IMG-20251020-WA0055.jpg',
+  'IMG-20260210-WA0003.jpg',
+  'IMG-20260214-WA0002.jpg',
+  'IMG-20260209-WA0011.jpg',
+  'IMG-20260214-WA0007.jpg'
+];
+
+// Extract exact face-focused photos for Hero background slideshow
+const heroPhotos = Object.entries(photoModules)
+  .filter(([path]) => {
+    const filename = path.split('/').pop() || '';
+    return selectedHeroFiles.includes(filename);
+  })
   .sort(([pathA], [pathB]) => {
     const fileA = pathA.split('/').pop() || '';
     const fileB = pathB.split('/').pop() || '';
-    const isNewA = fileA.startsWith('IMG') || fileA.startsWith('Screenshot');
-    const isNewB = fileB.startsWith('IMG') || fileB.startsWith('Screenshot');
-
-    if (isNewA && !isNewB) return -1;
-    if (!isNewA && isNewB) return 1;
-    return fileB.localeCompare(fileA);
+    return selectedHeroFiles.indexOf(fileA) - selectedHeroFiles.indexOf(fileB);
   })
   .map(([, mod]) => mod.default || mod);
+
+const staticPhotos = Object.entries(photoModules).map(([, mod]) => mod.default || mod);
 
 export default function App() {
   const [photos, setPhotos] = useState(staticPhotos);
@@ -76,7 +95,7 @@ export default function App() {
       <MusicPlayer />
 
       {/* Hero Header Banner + Birthday Message + Countdown clock */}
-      <Hero photos={photos} />
+      <Hero photos={heroPhotos.length > 0 ? heroPhotos : photos} />
 
       {/* Polaroid Memory Scrapbook Album & Carousel */}
       <Gallery photos={photos} triggerCelebrate={triggerCelebrate} />
