@@ -46,7 +46,12 @@ const heroPhotos = Object.entries(photoModules)
   })
   .map(([, mod]) => mod.default || mod);
 
-const staticPhotos = Object.entries(photoModules).map(([, mod]) => mod.default || mod);
+const staticPhotos = Object.entries(photoModules)
+  .filter(([path]) => {
+    const filename = path.split('/').pop() || '';
+    return !filename.startsWith('Screenshot_2026') && !filename.includes('TransparentModalActivity') && !filename.includes('ListAlbumHiddenActivity');
+  })
+  .map(([, mod]) => mod.default || mod);
 
 export default function App() {
   const [photos, setPhotos] = useState(staticPhotos);
