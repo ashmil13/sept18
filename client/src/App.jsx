@@ -11,9 +11,21 @@ import Cake from './components/Cake';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
-// Statically load photos from assets
+// Statically load photos from assets and prioritize newly added photos first
 const photoModules = import.meta.glob('./assets/photos/*.{jpg,jpeg,png,gif,webp,JPG,JPEG,PNG,GIF,WEBP}', { eager: true });
-const staticPhotos = Object.values(photoModules).map((mod) => mod.default || mod);
+
+const staticPhotos = Object.entries(photoModules)
+  .sort(([pathA], [pathB]) => {
+    const fileA = pathA.split('/').pop() || '';
+    const fileB = pathB.split('/').pop() || '';
+    const isNewA = fileA.startsWith('IMG') || fileA.startsWith('Screenshot');
+    const isNewB = fileB.startsWith('IMG') || fileB.startsWith('Screenshot');
+
+    if (isNewA && !isNewB) return -1;
+    if (!isNewA && isNewB) return 1;
+    return fileB.localeCompare(fileA);
+  })
+  .map(([, mod]) => mod.default || mod);
 
 export default function App() {
   const [photos, setPhotos] = useState(staticPhotos);
