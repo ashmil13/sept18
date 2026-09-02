@@ -66,7 +66,7 @@ export default function PhotoSphere({ photos }) {
   useEffect(() => {
     let animId;
     const tick = () => {
-      if (!isDragging.current && !isHovered) {
+      if (!isDragging.current) {
         // Slow float rotation or fast rotation depending on isSpeedMode
         const speedMultiplier = isSpeedMode ? 6 : 1;
         rotationY.current += 0.20 * speedMultiplier;
@@ -80,7 +80,7 @@ export default function PhotoSphere({ photos }) {
     };
     animId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animId);
-  }, [isHovered, isSpeedMode]);
+  }, [isSpeedMode]);
 
   // Drag handlers for mouse & touch
   const handleStart = (e) => {
@@ -138,10 +138,12 @@ export default function PhotoSphere({ photos }) {
       {/* Header */}
       <div className="max-w-3xl text-center mb-6 relative z-20">
         <h2 className="fancy-title romantic-gradient-text mb-2 flex items-center justify-center gap-2">
-          3D Memory Orb <Sparkles className="text-yellow-300 animate-spin-slow" size={20} />
+          My wife <Sparkles className="text-yellow-300 animate-spin-slow" size={20} />
         </h2>
-        <p className="section-subtitle">
-          An interactive orbiting constellation of our beautiful memories. Drag to spin the orb, and click any bubble to bring back that sweet moment!
+        <p className="section-subtitle max-w-3xl whitespace-pre-line text-sm md:text-base leading-relaxed">
+          I really enjoy your company And I'm sorry that I'm bad at expressing my emotions sometimes. But you genuinely mean a lot to me and One day i will die and you will gonna miss me and my boring texts my random calls Our fights my madness my Possessiveness And in last How much i Truly love you and care for you
+          {"\n"}
+          you truly love me bubu because you care me like my mother and my girl it's important for you Mistake is a single page of life. But relation is a complete book So don't lose a full book for a single page you perfect for me you never make any wrong I will care you like my baby child your my small cutei baby I want you lip and your saliva my ayshuma your full time thinks of my mind please sleep
         </p>
       </div>
 
@@ -337,7 +339,6 @@ export default function PhotoSphere({ photos }) {
           cursor: pointer;
           transform-style: preserve-3d;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          backface-visibility: hidden;
         }
 
         .photo-bubble-glow {

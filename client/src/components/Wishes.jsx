@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, User, MessageSquare, Sparkles, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import defaultWishes from '../data/wishes.json';
 
 export default function Wishes() {
   const [wishes, setWishes] = useState([]);
@@ -10,21 +11,20 @@ export default function Wishes() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const fetchWishes = () => {
-    fetch('/api/wishes')
-      .then((res) => res.json())
-      .then((data) => {
-        setWishes(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error fetching wishes:', err);
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
-    fetchWishes();
+    try {
+      const storedWishes = localStorage.getItem('ayshu_birthday_wishes');
+      if (storedWishes) {
+        setWishes(JSON.parse(storedWishes));
+      } else {
+        localStorage.setItem('ayshu_birthday_wishes', JSON.stringify(defaultWishes));
+        setWishes(defaultWishes);
+      }
+    } catch (err) {
+      console.error('Error reading wishes from localStorage:', err);
+      setWishes(defaultWishes);
+    }
+    setLoading(false);
   }, []);
 
   const handleSubmit = (e) => {
@@ -32,39 +32,38 @@ export default function Wishes() {
     if (!name.trim() || !message.trim()) return;
 
     setSubmitting(true);
-    fetch('/api/wishes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, message }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error('Failed to save wish');
-      })
-      .then((newWish) => {
-        // Prepend new wish
-        setWishes((prev) => [newWish, ...prev]);
-        setName('');
-        setMessage('');
-        setSubmitting(false);
 
-        // Burst hearts on submit!
-        confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.8 },
-          colors: ['#ff3366', '#ff80a0']
-        });
-      })
-      .catch((err) => {
-        console.error('Error saving wish:', err);
-        setSubmitting(false);
+    setTimeout(() => {
+      const newWish = {
+        id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 5),
+        name: name.trim(),
+        message: message.trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      const updatedWishes = [newWish, ...wishes];
+      setWishes(updatedWishes);
+
+      try {
+        localStorage.setItem('ayshu_birthday_wishes', JSON.stringify(updatedWishes));
+      } catch (err) {
+        console.error('Error saving wish to localStorage:', err);
+      }
+
+      setName('');
+      setMessage('');
+      setSubmitting(false);
+
+      // Burst hearts on submit!
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#ff3366', '#ff80a0']
       });
+    }, 400);
   };
+
 
   return (
     <section className="relative py-24 px-4 md:px-8 z-10 overflow-hidden" style={{ background: 'linear-gradient(to bottom, var(--deep-purple), #0c0211)' }}>

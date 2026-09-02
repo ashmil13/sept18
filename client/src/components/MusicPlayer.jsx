@@ -8,24 +8,15 @@ export default function MusicPlayer() {
   const [showTooltip, setShowTooltip] = useState(true);
   const audioRef = useRef(null);
 
-  // Fallback music: Erik Satie's Gymnopedie No 1 (elegant, romantic piano)
+  // Default romantic piano music: Erik Satie's Gymnopedie No 1
   const defaultTrack = 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Gymnopedie_No_1.mp3';
-  // Try to load a local audio file if the user adds one to the public folder
-  const localTrack = '/audio.mp3';
-  const [audioUrl, setAudioUrl] = useState(localTrack);
+  const [audioUrl, setAudioUrl] = useState(defaultTrack);
 
-  useEffect(() => {
-    // Check if local audio.mp3 exists by sending a head request. If it fails, fallback to Wikimedia URL.
-    fetch(localTrack, { method: 'HEAD' })
-      .then((res) => {
-        if (!res.ok) {
-          setAudioUrl(defaultTrack);
-        }
-      })
-      .catch(() => {
-        setAudioUrl(defaultTrack);
-      });
-  }, []);
+  const handleAudioError = () => {
+    if (audioUrl !== defaultTrack) {
+      setAudioUrl(defaultTrack);
+    }
+  };
 
   useEffect(() => {
     if (audioRef.current) {
@@ -132,6 +123,7 @@ export default function MusicPlayer() {
       <audio
         ref={audioRef}
         src={audioUrl}
+        onError={handleAudioError}
         loop
       />
 

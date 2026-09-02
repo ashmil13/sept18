@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   Smile, Heart, Home, Brain, Music, Sparkles, Shield, Crown, Sun, Gift
 } from 'lucide-react';
+import staticReasons from '../data/reasons.json';
 
 const iconMap = {
   smile: <Smile className="text-yellow-400 animate-pulse" size={26} />,
@@ -22,21 +23,9 @@ const getIcon = (name) => {
 };
 
 export default function Reasons() {
-  const [reasons, setReasons] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [reasons, setReasons] = useState(staticReasons);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/reasons')
-      .then((res) => res.json())
-      .then((data) => {
-        setReasons(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error fetching reasons:', err);
-        setLoading(false);
-      });
-  }, []);
 
   if (loading) {
     return (

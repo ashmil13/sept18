@@ -5,15 +5,33 @@ import MusicPlayer from './components/MusicPlayer';
 import Hero from './components/Hero';
 import Gallery from './components/Gallery';
 import PhotoSphere from './components/PhotoSphere';
-import LoveLetter from './components/LoveLetter';
+import AnimatedLetter from './components/AnimatedLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
-import { Heart } from 'lucide-react';
+import Login from './components/Login';
+import { Heart, LogOut } from 'lucide-react';
+
+// Statically load photos from assets
+const photoModules = import.meta.glob('./assets/photos/*.{jpg,jpeg,png,gif,webp,JPG,JPEG,PNG,GIF,WEBP}', { eager: true });
+const staticPhotos = Object.values(photoModules).map((mod) => mod.default || mod);
 
 export default function App() {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [photos, setPhotos] = useState(staticPhotos);
+  const [loading, setLoading] = useState(false);
   const [celebrateMode, setCelebrateMode] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('ayshu_logged_in') === 'true';
+  });
+
+  const handleLoginSuccess = () => {
+    localStorage.setItem('ayshu_logged_in', 'true');
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('ayshu_logged_in');
+    setIsAuthenticated(false);
+  };
 
   const triggerCelebrate = () => {
     setCelebrateMode(true);
@@ -22,27 +40,22 @@ export default function App() {
     }, 4500);
   };
 
-  useEffect(() => {
-    // Fetch photos from local express api served on the proxy
-    fetch('/api/photos')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch photos');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setPhotos(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error loading photos from backend:', err);
-        setLoading(false);
-      });
-  }, []);
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={handleLoginSuccess} photos={photos} />;
+  }
 
   return (
     <div className="relative min-h-screen selection:bg-pink-600 selection:text-white overflow-hidden">
+      {/* Floating Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="fixed top-4 right-4 z-40 px-3 py-2 rounded-full bg-black/40 hover:bg-red-900/60 border border-pink-500/30 text-pink-200 text-xs flex items-center gap-1.5 backdrop-blur-md transition-all shadow-lg hover:scale-105 cursor-pointer group"
+        title="Lock Portal / Log Out"
+      >
+        <LogOut size={14} className="group-hover:text-red-400" />
+        <span className="hidden sm:inline font-medium">Lock Portal</span>
+      </button>
+
       {/* Background Animated Decorations (Hearts, Petals, Twinkles) */}
       <Decorations />
 
@@ -58,8 +71,8 @@ export default function App() {
       {/* 3D Orbiting Memory Sphere */}
       <PhotoSphere photos={photos} />
 
-      {/* Interactive Heart Envelope with handwriting scroll letter */}
-      <LoveLetter />
+      {/* Typewriter Animated Love Letter */}
+      <AnimatedLetter />
 
       {/* FLAMES relationship compatibility game */}
       <Flames />

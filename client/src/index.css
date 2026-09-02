@@ -16,25 +16,35 @@
   --text-shadow-gold: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.2);
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-red) var(--deep-purple);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--deep-purple);
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--primary-red), var(--dark-red));
-  border-radius: 4px;
-  border: 1px solid var(--rose-gold);
+  border-radius: 9999px;
+  border: 2px solid var(--deep-purple);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--rose-gold), var(--gold-accent));
 }
 
 body {
@@ -43,6 +53,9 @@ body {
   background-image: radial-gradient(circle at 50% 50%, #3a1c4b 0%, #150522 100%);
   color: var(--soft-white);
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Helper Utilities */
@@ -148,13 +161,14 @@ body {
   bottom: 0;
   animation: float-heart linear infinite;
   color: var(--primary-red);
+  will-change: transform, opacity;
 }
 
 .falling-petal {
   position: absolute;
   top: -20px;
   animation: fall-petal linear infinite;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 
 .sparkle {
@@ -163,6 +177,7 @@ body {
   background-color: var(--gold-accent);
   border-radius: 50%;
   box-shadow: 0 0 10px var(--gold-accent);
+  will-change: transform, opacity;
 }
 
 /* Custom transitions and utility animations */
@@ -580,6 +595,9 @@ body {
   letter-spacing: 0.15em;
   text-shadow: 0 0 15px rgba(244, 114, 182, 0.8), 0 0 35px rgba(219, 39, 119, 0.5);
 }
+
+
+
 
 
 
