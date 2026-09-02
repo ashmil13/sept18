@@ -4,6 +4,14 @@ import { Sparkles, RefreshCw, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export default function Cake({ triggerCelebrate }) {
+  const videos = [
+    { title: 'Main Birthday Celebration', url: '/birthday-celebration.mp4' },
+    { title: 'Special Memory Video 1', url: '/photos/VID-20250628-WA0039.mp4' },
+    { title: 'Special Memory Video 2', url: '/photos/VID-20250817-WA0015.mp4' },
+    { title: 'Moments Video', url: '/photos/5_6269120499318527082.mp4' }
+  ];
+  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
+
   const [candles, setCandles] = useState([
     { id: 1, isLit: false, left: '10%' },
     { id: 2, isLit: false, left: '26%' },
@@ -439,6 +447,56 @@ export default function Cake({ triggerCelebrate }) {
                   >
                     💖 Celebrate Again
                   </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Birthday Celebration Video Section - Plays After Cake Cutting */}
+          <AnimatePresence>
+            {isCut && (
+              <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-8 w-full max-w-2xl mx-auto p-4 md:p-6 glass-card gold-border rounded-2xl shadow-glow-gold relative overflow-hidden text-center"
+              >
+                <div className="flex flex-col items-center text-center mb-4">
+                  <span className="text-xs uppercase tracking-widest text-pink-400 font-semibold mb-1 flex items-center gap-1">
+                    <Sparkles size={14} className="text-yellow-400" /> Special Celebration Memory <Sparkles size={14} className="text-yellow-400" />
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-serif font-bold text-yellow-300 italic">
+                    🎬 Our Birthday Celebration Video 🌹
+                  </h3>
+                </div>
+
+                <div className="relative rounded-xl overflow-hidden border border-pink-500/30 shadow-2xl bg-black aspect-video flex items-center justify-center">
+                  <video
+                    key={videos[activeVideoIndex].url}
+                    src={videos[activeVideoIndex].url}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                </div>
+
+                {/* Video Playlist Buttons */}
+                <div className="flex flex-wrap justify-center gap-2 mt-4">
+                  {videos.map((vid, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveVideoIndex(idx)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                        activeVideoIndex === idx
+                          ? 'bg-pink-600 text-white border border-pink-400 shadow-glow'
+                          : 'bg-black/40 text-pink-200/70 border border-white/10 hover:bg-black/60'
+                      }`}
+                    >
+                      🎥 {vid.title}
+                    </button>
+                  ))}
                 </div>
               </motion.div>
             )}
