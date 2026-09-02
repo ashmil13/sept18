@@ -8,6 +8,7 @@ import PhotoSphere from './components/PhotoSphere';
 import AnimatedLetter from './components/AnimatedLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
+import VideoSection from './components/VideoSection';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
@@ -82,6 +83,9 @@ export default function App() {
 
       {/* 3D Orbiting Memory Sphere */}
       <PhotoSphere photos={photos} />
+
+      {/* Romantic Video & Sound Cinema Showcase */}
+      <VideoSection />
 
       {/* Typewriter Animated Love Letter */}
       <AnimatedLetter />
