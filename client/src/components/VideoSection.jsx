@@ -5,22 +5,22 @@ import { Sparkles, Volume2, VolumeX, Play, Pause, Film, Heart } from 'lucide-rea
 export default function VideoSection() {
   const videoList = [
     {
+      id: 'wa-vid-20250817',
+      title: 'Our Special Romantic Video',
+      url: '/photos/VID-20250817-WA0015.mp4',
+      badge: 'Featured Love Video'
+    },
+    {
       id: 'main-video',
-      title: 'Our Precious Memories Video',
+      title: 'Precious Moments Video',
       url: '/photos/5_6269120499318527082.mp4',
-      badge: 'Featured Video'
+      badge: 'Sweet Moments'
     },
     {
       id: 'vid-1',
-      title: 'Romantic Moment 1',
+      title: 'Special Memory Video',
       url: '/photos/VID-20250628-WA0039.mp4',
-      badge: 'Special Memory'
-    },
-    {
-      id: 'vid-2',
-      title: 'Romantic Moment 2',
-      url: '/photos/VID-20250817-WA0015.mp4',
-      badge: 'Sweet Clips'
+      badge: 'Romantic Clip'
     },
     {
       id: 'birthday-video',
