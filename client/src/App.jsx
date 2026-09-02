@@ -9,6 +9,7 @@ import AnimatedLetter from './components/AnimatedLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
 import VideoSection from './components/VideoSection';
+import CouplePhotos from './components/CouplePhotos';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
@@ -99,6 +100,9 @@ export default function App() {
 
       {/* Polaroid Memory Scrapbook Album & Carousel */}
       <Gallery photos={photos} triggerCelebrate={triggerCelebrate} />
+
+      {/* Romantic Couple Photos & Moments Showcase */}
+      <CouplePhotos />
 
       {/* 3D Orbiting Memory Sphere */}
       <PhotoSphere photos={photos} />
