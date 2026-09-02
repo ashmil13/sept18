@@ -567,13 +567,36 @@ body {
   .lg-col-span-7 { grid-column: span 7 / span 7 !important; }
 }
 
-/* Responsive Envelope Card Scale for Mobile */
-@media (max-width: 480px) {
-  .envelope-card {
-    transform: scale(0.85) !important;
+/* Mobile Responsiveness & Viewport Enhancements */
+@media (max-width: 640px) {
+  html, body {
+    font-size: 14px;
+    overflow-x: hidden !important;
+    width: 100vw;
+  }
+  .fancy-title {
+    font-size: 2.25rem !important;
+    line-height: 1.2 !important;
+  }
+  .glass-card {
+    border-radius: 16px !important;
+    padding: 1.25rem 1rem !important;
+  }
+  .custom-cake-area {
+    transform: scale(0.82);
+    transform-origin: center center;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
   }
 }
-@media (max-width: 375px) {
+
+@media (max-width: 400px) {
+  .fancy-title {
+    font-size: 1.85rem !important;
+  }
+  .custom-cake-area {
+    transform: scale(0.72);
+  }
   .envelope-card {
     transform: scale(0.75) !important;
   }
@@ -592,7 +615,7 @@ body {
 .celebrate-title {
   font-family: var(--font-sans);
   font-weight: 900;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
   text-shadow: 0 0 15px rgba(244, 114, 182, 0.8), 0 0 35px rgba(219, 39, 119, 0.5);
 }
 

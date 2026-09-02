@@ -325,47 +325,47 @@ export default function Hero({ photos }) {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1.2, type: "spring", bounce: 0.25 }}
-            className="relative z-10 text-center max-w-3xl px-6 py-10 mx-4 glass-card gold-border flex flex-col justify-center items-center shadow-glow-gold"
+            className="relative z-10 text-center max-w-3xl px-4 sm:px-6 py-6 sm:py-10 mx-2 sm:mx-4 glass-card gold-border flex flex-col justify-center items-center shadow-glow-gold"
           >
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-              className="mb-4 text-pink-500 flex justify-center items-center gap-1"
+              className="mb-3 sm:mb-4 text-pink-500 flex justify-center items-center gap-1"
             >
-              <Heart fill="#ff3366" className="text-pink-500 animate-pulse" size={28} />
-              <Sparkles className="text-yellow-400" size={24} />
-              <Heart fill="#ff3366" className="text-pink-500 animate-pulse" size={28} />
+              <Heart fill="#ff3366" className="text-pink-500 animate-pulse" size={24} />
+              <Sparkles className="text-yellow-400" size={20} />
+              <Heart fill="#ff3366" className="text-pink-500 animate-pulse" size={24} />
             </motion.div>
 
             {/* Cursive Name/Surprise Title */}
-            <h1 className="fancy-title romantic-gradient-text leading-tight mb-2 tracking-wide">
+            <h1 className="fancy-title romantic-gradient-text text-3xl sm:text-5xl md:text-6xl leading-tight mb-2 tracking-wide">
               Happy 18th Golden Birthday, Bubusai!
             </h1>
             
-            <p className="text-sm md:text-base tracking-widest text-pink-200-90 font-medium uppercase mb-3">
+            <p className="text-xs sm:text-base tracking-widest text-pink-200-90 font-medium uppercase mb-3">
               Welcome, my lovely wife Bubusai ❤️
             </p>
 
-            <p className="text-[10px] text-yellow-400 font-bold uppercase tracking-widest mb-6 px-3 py-1 rounded-full border border-yellow-500/20 bg-yellow-500/5 flex items-center gap-1 select-none">
+            <p className="text-[10px] sm:text-xs text-yellow-400 font-bold uppercase tracking-widest mb-5 px-3 py-1 rounded-full border border-yellow-500/20 bg-yellow-500/5 flex items-center gap-1 select-none">
               ✨ Turning 18 Years My Woman ✨
             </p>
 
             {/* Countdown Box Container */}
             <div className="flex flex-col items-center w-full">
-              <p className="text-xs text-yellow-300 font-medium uppercase tracking-wider mb-4 flex items-center gap-1-5">
+              <p className="text-[11px] sm:text-xs text-yellow-300 font-medium uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <Sparkles size={14} /> Countdown to September 18th <Sparkles size={14} />
               </p>
 
-              <div className="flex justify-center gap-3 w-full max-w-lg" style={{ gap: '15px' }}>
+              <div className="flex justify-center gap-2 sm:gap-4 w-full max-w-lg">
                 {Object.entries(timeLeft).map(([label, value]) => (
                   <div
                     key={label}
-                    className="flex flex-col items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-xl bg-black-40 border border-white-10 shadow-inner"
+                    className="flex flex-col items-center justify-center w-14 h-14 sm:w-20 sm:h-20 rounded-xl bg-black-40 border border-white-10 shadow-inner"
                   >
-                    <span className="text-xl md:text-3xl font-semibold text-white font-mono tracking-tight">
+                    <span className="text-lg sm:text-3xl font-semibold text-white font-mono tracking-tight">
                       {String(value).padStart(2, '0')}
                     </span>
-                    <span className="text-xs text-pink-300 capitalize mt-1 font-light tracking-wider">
+                    <span className="text-[10px] sm:text-xs text-pink-300 capitalize mt-0.5 font-light tracking-wider">
                       {label}
                     </span>
                   </div>
