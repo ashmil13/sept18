@@ -88,7 +88,7 @@ export default function App() {
           <Heart fill="#ff3366" size={16} />
         </div>
         <p className="font-serif text-lg text-yellow-300 italic mb-1 tracking-wide">
-          Happy 18th Birthday, Aysha. You are my forever and always.
+          Happy 18th Golden Birthday, Bubusai. You are my forever and always.
         </p>
         <p className="text-xs text-white-40 uppercase tracking-widest font-light">
           Created with love by your Hubby • September 18

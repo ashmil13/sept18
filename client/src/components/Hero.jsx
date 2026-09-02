@@ -339,7 +339,7 @@ export default function Hero({ photos }) {
 
             {/* Cursive Name/Surprise Title */}
             <h1 className="fancy-title romantic-gradient-text leading-tight mb-2 tracking-wide">
-              Happy 18th Birthday, Aysha!
+              Happy 18th Golden Birthday, Bubusai!
             </h1>
             
             <p className="text-sm md:text-base tracking-widest text-pink-200-90 font-medium uppercase mb-3">

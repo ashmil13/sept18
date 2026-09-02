@@ -152,7 +152,7 @@ export default function Cake({ triggerCelebrate }) {
           )}
           {isCut && (
             <span className="text-yellow-400 font-serif italic text-lg block">
-              ✨ Happy 18th Birthday, Aysha! Your wishes are granted! ✨
+              ✨ Happy 18th Golden Birthday, Bubusai! Your wishes are granted! ✨
             </span>
           )}
         </p>
