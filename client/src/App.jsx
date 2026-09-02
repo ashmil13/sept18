@@ -9,6 +9,7 @@ import AnimatedLetter from './components/AnimatedLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
 import CouplePhotos from './components/CouplePhotos';
+import Timeline from './components/Timeline';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
@@ -102,6 +103,9 @@ export default function App() {
 
       {/* Romantic Couple Photos & Moments Showcase */}
       <CouplePhotos />
+
+      {/* Love Story & Sacred Mahar Timeline */}
+      <Timeline photos={photos} />
 
       {/* 3D Orbiting Memory Sphere */}
       <PhotoSphere photos={photos} />
