@@ -476,7 +476,7 @@ export default function Cake({ triggerCelebrate }) {
                     controls
                     autoPlay
                     playsInline
-                    className="w-full h-full object-cover rounded-xl"
+                    className="w-full h-full object-contain max-h-[60vh] rounded-xl bg-black"
                   />
                 </div>
 
