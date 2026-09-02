@@ -9,12 +9,11 @@ import AnimatedLetter from './components/AnimatedLetter';
 import Flames from './components/Flames';
 import Cake from './components/Cake';
 import CouplePhotos from './components/CouplePhotos';
-import Timeline from './components/Timeline';
 import Login from './components/Login';
 import { Heart, LogOut } from 'lucide-react';
 
 // Statically load photos from assets
-const photoModules = import.meta.glob('./assets/photos/*.{jpg,jpeg,png,gif,webp,JPG,JPEG,PNG,GIF,WEBP}', { eager: true });
+const photoModules = import.meta.glob('./assets/photos/*', { eager: true });
 
 const selectedHeroFiles = [
   'IMG_20260821_084415_697.jpg',
@@ -46,10 +45,17 @@ const heroPhotos = Object.entries(photoModules)
   })
   .map(([, mod]) => mod.default || mod);
 
+const excludedPhotos = [
+  'IMG_20260524_121810_793.jpg', // Red shirt image
+  'IMG_20260627_133942_187.jpg'  // QR code image
+];
+
 const staticPhotos = Object.entries(photoModules)
   .filter(([path]) => {
     const filename = path.split('/').pop() || '';
-    return !filename.includes('Screenshot') && !filename.includes('TransparentModalActivity') && !filename.includes('ListAlbumHiddenActivity');
+    const ext = filename.split('.').pop()?.toLowerCase() || '';
+    return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'svg'].includes(ext) &&
+           !excludedPhotos.includes(filename);
   })
   .map(([, mod]) => mod.default || mod);
 
@@ -108,9 +114,6 @@ export default function App() {
 
       {/* Romantic Couple Photos & Moments Showcase */}
       <CouplePhotos />
-
-      {/* Love Story & Sacred Mahar Timeline */}
-      <Timeline photos={photos} />
 
       {/* 3D Orbiting Memory Sphere */}
       <PhotoSphere photos={photos} />

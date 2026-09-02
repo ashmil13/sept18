@@ -25,7 +25,26 @@ const ROMANTIC_CAPTIONS = [
   "Forever and always, my love 💖"
 ];
 
+// Exclude unwanted images (red shirt & QR code)
+const excludedPhotos = [
+  'IMG_20260524_121810_793.jpg', // Red shirt image
+  'IMG_20260627_133942_187.jpg'  // QR code image
+];
+
+// Statically load all photos directly from src/assets/photos folder
+const galleryPhotoModules = import.meta.glob('../assets/photos/*', { eager: true });
+
+const defaultGalleryPhotos = Object.entries(galleryPhotoModules)
+  .filter(([path]) => {
+    const filename = path.split('/').pop() || '';
+    const ext = filename.split('.').pop()?.toLowerCase() || '';
+    return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'svg'].includes(ext) &&
+           !excludedPhotos.includes(filename);
+  })
+  .map(([, mod]) => mod.default || mod);
+
 export default function Gallery({ photos, triggerCelebrate }) {
+  const displayPhotos = (photos && photos.length > 0) ? photos : defaultGalleryPhotos;
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [isCinematicMode, setIsCinematicMode] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -82,12 +101,12 @@ export default function Gallery({ photos, triggerCelebrate }) {
 
   const showNext = (e) => {
     e.stopPropagation();
-    setSelectedPhotoIndex((prev) => (prev + 1) % photos.length);
+    setSelectedPhotoIndex((prev) => (prev + 1) % displayPhotos.length);
   };
 
   const showPrev = (e) => {
     e.stopPropagation();
-    setSelectedPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
+    setSelectedPhotoIndex((prev) => (prev - 1 + displayPhotos.length) % displayPhotos.length);
   };
 
   // Auto slideshow in cinematic mode
@@ -95,11 +114,11 @@ export default function Gallery({ photos, triggerCelebrate }) {
     let interval;
     if (isCinematicMode && selectedPhotoIndex !== null) {
       interval = setInterval(() => {
-        setSelectedPhotoIndex((prev) => (prev + 1) % photos.length);
+        setSelectedPhotoIndex((prev) => (prev + 1) % displayPhotos.length);
       }, 4000); // Fades to next photo every 4 seconds
     }
     return () => clearInterval(interval);
-  }, [isCinematicMode, selectedPhotoIndex]);
+  }, [isCinematicMode, selectedPhotoIndex, displayPhotos]);
 
   const toggleCinematic = (e) => {
     e.stopPropagation();
@@ -112,13 +131,13 @@ export default function Gallery({ photos, triggerCelebrate }) {
   };
 
   const nextCarousel = () => {
-    if (photos.length === 0) return;
-    setCarouselIndex((prev) => (prev + 1) % photos.length);
+    if (displayPhotos.length === 0) return;
+    setCarouselIndex((prev) => (prev + 1) % displayPhotos.length);
   };
 
   const prevCarousel = () => {
-    if (photos.length === 0) return;
-    setCarouselIndex((prev) => (prev - 1 + photos.length) % photos.length);
+    if (displayPhotos.length === 0) return;
+    setCarouselIndex((prev) => (prev - 1 + displayPhotos.length) % displayPhotos.length);
   };
 
   const handleUnzip = () => {
@@ -194,16 +213,16 @@ export default function Gallery({ photos, triggerCelebrate }) {
 
         {/* Zipper Wrapper Frame */}
         <div className="relative min-h-[600px] w-full rounded-2xl overflow-hidden border border-white-10 bg-black-40">
-          
+
           {!isUnzipped ? (
             /* Closed Zipper Curtain Screen Overlay (Clickable anywhere to unzip) */
-            <div 
+            <div
               ref={containerRef}
               onClick={handleUnzip}
               className="absolute inset-0 z-30 flex items-center justify-center overflow-hidden cursor-pointer"
               style={{ userSelect: 'none' }}
             >
-              
+
               {/* Top curtain panel */}
               <motion.div
                 animate={isUnzipping ? { y: '-100%' } : {}}
@@ -288,11 +307,11 @@ export default function Gallery({ photos, triggerCelebrate }) {
 
           {/* Actual Scrapbook Content - Visible when unzipped */}
           <div className="w-full h-full p-4 md:p-8">
-            {photos.length === 0 ? (
+            {displayPhotos.length === 0 ? (
               <div className="flex flex-col items-center justify-center p-12 h-[500px]">
                 <ImageIcon size={48} className="text-pink-400 animate-pulse mb-3" />
                 <p className="text-pink-200">No photos loaded yet.</p>
-                <p className="text-xs text-white-50 mt-1">Please add photos to the "wife" folder to showcase them here!</p>
+                <p className="text-xs text-white-50 mt-1">Please add photos to the assets folder to showcase them here!</p>
               </div>
             ) : (
               <motion.div
@@ -301,13 +320,13 @@ export default function Gallery({ photos, triggerCelebrate }) {
                 transition={{ duration: 0.6 }}
               >
                 {/* Cinematic slideshow trigger & rotating carousel banner */}
-                <div className="mb-16 flex flex-col items-center">
+                <div className="mb-8 flex flex-col items-center">
                   <button
                     onClick={() => {
                       setSelectedPhotoIndex(0);
                       setIsCinematicMode(true);
                     }}
-                    className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-medium text-sm tracking-wider uppercase transition-all duration-300 shadow-glow hover:scale-105 border border-pink-400 mb-10 cursor-pointer"
+                    className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white font-medium text-sm tracking-wider uppercase transition-all duration-300 shadow-glow hover:scale-105 border border-pink-400 mb-6 cursor-pointer"
                   >
                     <Play size={16} fill="currentColor" /> Play Cinematic Slideshow
                   </button>
@@ -322,7 +341,7 @@ export default function Gallery({ photos, triggerCelebrate }) {
                         exit={{ opacity: 0, scale: 1.05 }}
                         transition={{ duration: 0.8 }}
                         className="absolute inset-0 bg-cover bg-center cursor-pointer"
-                        style={{ backgroundImage: `url(${photos[carouselIndex]})` }}
+                        style={{ backgroundImage: `url(${displayPhotos[carouselIndex]})` }}
                         onClick={() => openLightbox(carouselIndex)}
                       >
                         <div className="absolute inset-x-0 bottom-0 p-6 pt-16 flex flex-col justify-end text-center" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2), transparent)' }}>
@@ -349,25 +368,21 @@ export default function Gallery({ photos, triggerCelebrate }) {
                   </div>
                 </div>
 
-                {/* Grid Polaroid Layout (Fixed Aspect Ratio with Perfect Spacing) */}
+                {/* Grid Polaroid Layout (Edge-to-Edge Sleek Cards with Tight Spacing) */}
                 <div className="photo-grid">
-                  {photos.map((url, index) => {
-                    // Generate a stable rotation for each polaroid card
-                    const rotation = (index % 3 === 0) ? '-2deg' : (index % 3 === 1) ? '2deg' : '-1deg';
-                    
+                  {displayPhotos.map((url, index) => {
                     return (
                       <motion.div
                         key={url}
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-50px' }}
-                        transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
+                        viewport={{ once: true, margin: '-20px' }}
+                        transition={{ duration: 0.4, delay: (index % 4) * 0.05 }}
                         className="photo-grid-item"
                       >
                         <div
                           onClick={() => openLightbox(index)}
                           className="polaroid cursor-pointer"
-                          style={{ transform: `rotate(${rotation})` }}
                         >
                           <div className="polaroid-image-wrapper">
                             <img src={url} alt={`Memory ${index + 1}`} loading="lazy" />
@@ -406,11 +421,10 @@ export default function Gallery({ photos, triggerCelebrate }) {
             {/* Cinematic Autoplay Control */}
             <button
               onClick={toggleCinematic}
-              className={`absolute top-6 left-6 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
-                isCinematicMode
+              className={`absolute top-6 left-6 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${isCinematicMode
                   ? 'bg-pink-600 text-white border-pink-400 shadow-glow animate-pulse'
                   : 'bg-white-10 text-white-80 border-transparent hover-bg-white-20'
-              }`}
+                }`}
             >
               {isCinematicMode ? '⏸ Pause Slideshow' : '▶ Auto Play'}
             </button>
@@ -433,12 +447,12 @@ export default function Gallery({ photos, triggerCelebrate }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.5 }}
-                src={photos[selectedPhotoIndex]}
+                src={displayPhotos[selectedPhotoIndex]}
                 alt="Selected Memory"
                 className="max-w-full rounded-lg gold-border shadow-glow-gold object-contain"
                 style={{ maxHeight: '70vh' }}
               />
-              
+
               {/* Caption */}
               <motion.p
                 key={`caption-${selectedPhotoIndex}`}
