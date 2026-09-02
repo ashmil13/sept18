@@ -6,9 +6,7 @@ import confetti from 'canvas-confetti';
 export default function Cake({ triggerCelebrate }) {
   const videos = [
     { title: 'Birthday Video 🎂', url: '/photos/5_6269120499318527082.mp4' },
-    { title: 'Romantic Love Video 💖', url: '/photos/VID-20250817-WA0015.mp4' },
-    { title: 'Special Memory Video 🌹', url: '/photos/VID-20250628-WA0039.mp4' },
-    { title: 'Birthday Celebration Video 🎉', url: '/birthday-celebration.mp4' }
+    { title: 'Romantic Love Video 💖', url: '/photos/VID-20250817-WA0015.mp4' }
   ];
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
 

@@ -15,18 +15,6 @@ export default function VideoSection() {
       title: 'Romantic Love Video 💖',
       url: '/photos/VID-20250817-WA0015.mp4',
       badge: 'Featured Video'
-    },
-    {
-      id: 'vid-1',
-      title: 'Special Memory Video 🌹',
-      url: '/photos/VID-20250628-WA0039.mp4',
-      badge: 'Romantic Clip'
-    },
-    {
-      id: 'celebration-video',
-      title: 'Birthday Celebration Video 🎉',
-      url: '/birthday-celebration.mp4',
-      badge: 'Celebration'
     }
   ];
 
