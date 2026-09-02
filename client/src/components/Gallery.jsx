@@ -5,7 +5,6 @@ import confetti from 'canvas-confetti';
 
 const ROMANTIC_CAPTIONS = [
   "My absolute favorite view ❤️",
-  "That smile that brightens my entire world",
   "Holding hands with my forever partner",
   "Beautiful moments, beautiful you",
   "You take my breath away, every single day",

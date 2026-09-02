@@ -49,7 +49,7 @@ const heroPhotos = Object.entries(photoModules)
 const staticPhotos = Object.entries(photoModules)
   .filter(([path]) => {
     const filename = path.split('/').pop() || '';
-    return !filename.startsWith('Screenshot_2026') && !filename.includes('TransparentModalActivity') && !filename.includes('ListAlbumHiddenActivity');
+    return !filename.includes('Screenshot') && !filename.includes('TransparentModalActivity') && !filename.includes('ListAlbumHiddenActivity');
   })
   .map(([, mod]) => mod.default || mod);
 
